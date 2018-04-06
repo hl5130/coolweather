@@ -2,6 +2,7 @@ package com.example.hongliang.coolweather;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -104,6 +105,9 @@ public class ChooseAreaFragment extends Fragment {
                 }else if (currentLevel == LEVEL_CITY){
                     selectedCity = cityList.get(position);
                     queryCounties();
+                }else if (currentLevel == LEVEL_COUNTY){
+                    Intent intent = new Intent(getActivity(),WeatherActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -141,7 +145,7 @@ public class ChooseAreaFragment extends Fragment {
             currentLevel = LEVEL_PROVINCE;
         }else {
             Log.e("ChooseAreaFragment","查询省份——数据库没有数据，请求服务器");
-            String address = "http://guolin.tech/api/china";
+            String address = "http://guolin.tech/aqi/china";
             queryFromServer(address,"province");
         }
     }
@@ -168,7 +172,7 @@ public class ChooseAreaFragment extends Fragment {
             Log.e("ChooseAreaFragment","查询城市——从服务器获取");
 
             int provinceCode = selectedProvince.getProvinceCode();
-            String address = "http://guolin.tech/api/china/" + provinceCode;
+            String address = "http://guolin.tech/aqi/china/" + provinceCode;
             queryFromServer(address,"city");
         }
     }
@@ -198,7 +202,7 @@ public class ChooseAreaFragment extends Fragment {
 
             int provinceCode = selectedProvince.getProvinceCode();
             int cityCode = selectedCity.getCityCode();
-            String address = "http://guolin.tech/api/china/" + provinceCode + "/" + cityCode;
+            String address = "http://guolin.tech/aqi/china/" + provinceCode + "/" + cityCode;
             queryFromServer(address,"county");
         }
     }
